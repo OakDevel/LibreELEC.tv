@@ -17,8 +17,8 @@
 ################################################################################
 
 PKG_NAME="fd628-aml"
-PKG_VERSION="6993a86"
-PKG_SHA256="5eb30d485d23c9be427528b3604d564565194f759281677c2b1b66419e6edc15"
+PKG_VERSION="756ed67"
+PKG_SHA256="bf0b389e46845e8c8a2618a2cbd73719cccfd562000d8f8aa4cad6d9b52fc7e3"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/tanixbox/tx3mini_linux_fd628"
