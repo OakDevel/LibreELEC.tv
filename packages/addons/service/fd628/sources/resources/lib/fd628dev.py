@@ -38,7 +38,8 @@ class fd628Dev:
 		self._FD628_IOC_GDISPLAY_TYPE = ioctl.IOR(self._FD628_IOC_MAGIC, 8, size)
 		self._FD628_IOC_SDISPLAY_TYPE = ioctl.IOW(self._FD628_IOC_MAGIC, 9, size)
 		self._FD628_IOC_SCHARS_ORDER = ioctl.IOW(self._FD628_IOC_MAGIC, 10, 7)
-		self._FD628_IOC_MAXNR = 11
+		self._FD628_IOC_USE_DTB_CONFIG = ioctl.IOW(self._FD628_IOC_MAGIC, 11, size)
+		self._FD628_IOC_MAXNR = 12
 
 	def enableDisplay(self, value):
 		self.__writeFD628(self._FD628_IOC_POWER, int(value))
@@ -58,6 +59,9 @@ class fd628Dev:
 	def setCharacterOrder(self, value):
 		pack = struct.pack('BBBBBBB', value[0], value[1], value[2], value[3], value[4], value[5], value[6])
 		self.__writeFD628(self._FD628_IOC_SCHARS_ORDER, pack, True)
+
+	def useDtbConfig(self):
+		self.__writeFD628(self._FD628_IOC_USE_DTB_CONFIG, 0)
 
 	def __readFD628(self, cmd, isBuf = False):
 		import ioctl

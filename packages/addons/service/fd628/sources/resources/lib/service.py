@@ -17,6 +17,7 @@
 ################################################################################
 
 import xbmcaddon
+import threading
 import os
 import fd628states
 import fd628dev
@@ -45,22 +46,28 @@ class fd628Addon():
 		self._monitor = monitor
 		self._monitor.setSettingsChangedCallback(self)
 		self._settings = fd628settings.fd628Settings()
+		self._vfdon = '/sys/class/leds/fd628_dev/led_on'
+		self._vfdoff = '/sys/class/leds/fd628_dev/led_off'
+		self._rlock = threading.RLock()
 
 	def run(self):
 		firstLoop = True
 		while not self._monitor.abortRequested():
 			if self._monitor.waitForAbort(0.5):
 				break
-			vfdon = '/sys/class/leds/fd628_dev/led_on'
-			vfdoff = '/sys/class/leds/fd628_dev/led_off'
-			if (not os.path.isfile(vfdon) or not os.path.isfile(vfdoff)):
+			if (not os.path.isfile(self._vfdon) or not os.path.isfile(self._vfdoff)):
 				firstLoop = True
 				continue
 			if (firstLoop):
 				self.onSettingsChanged()
 				firstLoop = False
-			ledon = []
-			ledoff = []
+			self.__updateIndicators()
+		self.__cleanUp()
+
+	def __updateIndicators(self):
+		ledon = []
+		ledoff = []
+		if (self._rlock.acquire()):
 			for state in self._states:
 				state.update()
 				if (state.hasChanged()):
@@ -68,20 +75,19 @@ class fd628Addon():
 						ledon.append(state.getLedName())
 					else:
 						ledoff.append(state.getLedName())
-			self.__writeFile(vfdon, ledon)
-			self.__writeFile(vfdoff, ledoff)
-		self.__cleanUp()
+			self.__writeFile(self._vfdon, ledon)
+			self.__writeFile(self._vfdoff, ledoff)
+			self._rlock.release()
 
 	def __cleanUp(self):
 		self.__turnOffIndicators()
 		self._monitor = None
 
 	def __turnOffIndicators(self):
-		ledoff = []
-		vfdoff = '/sys/class/leds/fd628_dev/led_off'
-		for state in self._states:
-			ledoff.append(state.getLedName())
-		self.__writeFile(vfdoff, ledoff)
+		if (self._rlock.acquire()):
+			ledoff = [state.getLedName() for state in self._states]
+			self.__writeFile(self._vfdoff, ledoff)
+			self._rlock.release()
 
 	def __writeFile(self, path, values):
 		if (os.path.isfile(path)):
@@ -93,13 +99,18 @@ class fd628Addon():
 	def onSettingsChanged(self):
 		kodiLog('Enter fd628Addon.onSettingsChanged')
 		self._settings.readValues()
-		self.__createStates()
-		self._fd628.enableDisplay(self._settings.isDisplayOn())
-		if (self._settings.isDisplayOn()):
-			self._fd628.setBrightness(self._settings.getBrightness())
-			if (self._settings.isAdvancedSettings()):
-				self._fd628.setDisplayType(self._settings.getDisplayType())
-				self._fd628.setCharacterOrder(self._settings.getCharacterIndexes())
+		if (self._rlock.acquire()):
+			self.__createStates()
+			self._fd628.enableDisplay(self._settings.isDisplayOn())
+			if (self._settings.isDisplayOn()):
+				self._fd628.setBrightness(self._settings.getBrightness())
+				if (self._settings.isAdvancedSettings()):
+					self._fd628.setDisplayType(self._settings.getDisplayType())
+					self._fd628.setCharacterOrder(self._settings.getCharacterIndexes())
+				else:
+					self._fd628.useDtbConfig()
+			self.__updateIndicators()
+			self._rlock.release()
 		kodiLog('isDisplayOn = {0}'.format(self._settings.isDisplayOn()))
 		kodiLog('getBrightness = {0}'.format(self._settings.getBrightness()))
 		kodiLog('isAdvancedSettings = {0}'.format(self._settings.isAdvancedSettings()))
@@ -113,7 +124,6 @@ class fd628Addon():
 		'service-LibreELEC-Settings-mainWindow.xml', 'service-LibreELEC-Settings-wizard.xml', \
 		'service-LibreELEC-Settings-getPasskey.xml']
 		appsWindows = ['addonbrowser', 'addonsettings', 'addoninformation', 'addon', 'programs']
-		self.__turnOffIndicators()
 		states = []
 		states.append(fd628states.fd628CondVisibility('play', 'Player.Playing'))
 		states.append(fd628states.fd628CondVisibility('pause', 'Player.Paused'))
@@ -132,6 +142,7 @@ class fd628Addon():
 					break
 			states.append(fd628states.fd628ExtStorageCount(self._settings.getStorageIndicatorIcon(), None, 'rw'))
 			kodiLog('Active states: ' + str([str(state) for state in states]))
+		self.__turnOffIndicators()
 		self._states = states
 
 monitor = fd628Monitor()
