@@ -1,6 +1,6 @@
 110
 - Rewrite add-on from scratch
-- Add support for APPS, SETUP and CVBS indicators.
+- Add support for APPS, SETUP, CVBS (X92) and POWER (A1 Max) indicators.
 - Add a configuration dialog:
     * Adjust display brightness.
     * Storage access indication.
@@ -11,3 +11,4 @@
 
 100
 - Initial add-on
+

@@ -53,6 +53,15 @@ class fd628Settings:
 	def getDisplayType(self):
 		return self._displayType
 
+	def isCommonAnode(self):
+		return self._commonAnode
+
+	def getDisplay(self):
+		value = self.getDisplayType()
+		if (self.isCommonAnode()):
+			value = value + (1 << 16)
+		return value
+
 	def getCharacterIndex(self, i):
 		return self._characterIndexes[i]
 
@@ -75,6 +84,7 @@ class fd628Settings:
 			self._displayAdvanced = getSettingBool('display.advanced')
 			if (self._displayAdvanced):
 				self._displayType = getSettingInt('display.type')
+				self._commonAnode = getSettingBool('display.common.anode')
 				self._characterIndexes = []
 				for i in range(7):
 					self._characterIndexes.append(getSettingInt('display.char.index{0}'.format(i)))
@@ -90,5 +100,6 @@ class fd628Settings:
 			self._storageIndicatorIcon = ''
 			self._displayAdvanced = False
 		if not (self._displayAdvanced):
-			self._displayType = 1
+			self._displayType = 0
+			self._commonAnode = False
 			self._characterIndexes = range(0, 7)

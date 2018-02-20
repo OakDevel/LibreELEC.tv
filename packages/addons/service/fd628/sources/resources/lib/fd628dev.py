@@ -72,7 +72,7 @@ class fd628Dev:
 			if (ret == ''):
 				ret = None
 			if (not isBuf and ret != None):
-				ret = int(ret)
+				ret = int(ret, 0)
 		kodiLog('fd628Dev.__readFD628: value = {0}'.format(str(ret)))
 		return ret
 

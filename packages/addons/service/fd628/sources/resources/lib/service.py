@@ -105,7 +105,7 @@ class fd628Addon():
 			if (self._settings.isDisplayOn()):
 				self._fd628.setBrightness(self._settings.getBrightness())
 				if (self._settings.isAdvancedSettings()):
-					self._fd628.setDisplayType(self._settings.getDisplayType())
+					self._fd628.setDisplayType(self._settings.getDisplay())
 					self._fd628.setCharacterOrder(self._settings.getCharacterIndexes())
 				else:
 					self._fd628.useDtbConfig()
@@ -115,6 +115,7 @@ class fd628Addon():
 		kodiLog('getBrightness = {0}'.format(self._settings.getBrightness()))
 		kodiLog('isAdvancedSettings = {0}'.format(self._settings.isAdvancedSettings()))
 		kodiLog('getDisplayType = {0}'.format(self._settings.getDisplayType()))
+		kodiLog('isCommonAnode = {0}'.format(self._settings.isCommonAnode()))
 		kodiLog('getCharacterIndexex = {0}'.format(self._settings.getCharacterIndexes()))
 
 	def __createStates(self):
@@ -125,6 +126,7 @@ class fd628Addon():
 		'service-LibreELEC-Settings-getPasskey.xml']
 		appsWindows = ['addonbrowser', 'addonsettings', 'addoninformation', 'addon', 'programs']
 		states = []
+		states.append(fd628states.fd628PowerIndicator('power'))
 		states.append(fd628states.fd628CondVisibility('play', 'Player.Playing'))
 		states.append(fd628states.fd628CondVisibility('pause', 'Player.Paused'))
 		states.append(fd628states.fd628FileContains('hdmi', '/sys/class/amhdmitx/amhdmitx0/hpd_state', ['1']))

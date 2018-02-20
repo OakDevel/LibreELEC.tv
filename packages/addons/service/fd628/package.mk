@@ -31,7 +31,7 @@ PKG_TOOLCHAIN="manual"
 
 PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="service.fd628"
-PKG_ADDON_PROJECTS="S905"
+PKG_ADDON_PROJECTS="S905 S912"
 PKG_ADDON_TYPE="xbmc.service"
 
 make_target() {
