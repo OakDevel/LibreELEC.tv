@@ -4,7 +4,7 @@
         <setting label="30001" type="bool" id="display.on" default="true" />
         <setting label="30002" type="slider" id="display.brightness" default="7" range="0,7" option="int" visible="eq(-1,true)" />
 		<setting label="30013" type="bool" id="display.storage.indicator" default="false" visible="eq(-2,true)" />
-		<setting label="30014" type="labelenum" id="display.storage.indicator.icon" lvalues="30025|30015|30016|30017|30018|30019|30020|30021|30022|30023|30024" default="30025" visible="eq(-3,true) + eq(-1,true)" subsetting="true" />
+		<setting label="30014" type="labelenum" id="display.storage.indicator.icon" lvalues="30025|30015|30016|30017|30018|30019|30020|30021|30022|30023|30024|30027" default="30025" visible="eq(-3,true) + eq(-1,true)" subsetting="true" />
 		<setting label="30003" type="bool" id="display.advanced" default="false" visible="eq(-4,true)" />
 		<setting label="30004" type="enum" id="display.type" values="0|1|2|3|4|5|6" default="1" visible="eq(-5,true) + eq(-1,true)" subsetting="true" />
 		<setting label="30026" type="bool" id="display.common.anode" default="false" visible="eq(-6,true) + eq(-2,true)" subsetting="true" />

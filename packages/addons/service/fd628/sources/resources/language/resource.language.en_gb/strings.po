@@ -93,6 +93,10 @@ msgctxt "#30025"
 msgid "alarm"
 msgstr ""
 
+msgctxt "#30027"
+msgid "power"
+msgstr ""
+
 msgctxt "#30012"
 msgid "Reorder character indexes"
 msgstr ""
@@ -125,5 +129,4 @@ msgctxt "#30011"
 msgid "Index 6"
 msgstr ""
 
-# Max index 30026
-
+# Max index 30027
