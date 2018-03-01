@@ -185,7 +185,7 @@ class fd628ExtStorageCount(fd628State):
 	def __getAllDrives(self):
 		drives = []
 		for folder, subs, files in os.walk('/sys/block'):
-			drives = [sub for sub in subs if (not sub.startswith('loop') and not sub.startswith('mmcblk0'))]
+			drives = [sub for sub in subs if (not sub.startswith('loop'))]
 		return drives
 
 	def __getSelectedDrives(self):
