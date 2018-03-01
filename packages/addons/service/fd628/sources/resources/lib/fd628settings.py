@@ -74,6 +74,9 @@ class fd628Settings:
 	def getStorageIndicatorIcon(self):
 		return self._storageIndicatorIcon
 
+	def isColonOn(self):
+		return self._colonOn
+
 	def readValues(self):
 		self._displayAdvanced = False
 		self._displayOn = getSettingBool('display.on')
@@ -81,6 +84,7 @@ class fd628Settings:
 			self._displayBrightness = getSettingInt('display.brightness')
 			self._storageIndicator = getSettingBool('display.storage.indicator')
 			self._storageIndicatorIcon = getSetting('display.storage.indicator.icon')
+			self._colonOn = getSettingBool('display.colon.on')
 			self._displayAdvanced = getSettingBool('display.advanced')
 			if (self._displayAdvanced):
 				self._displayType = getSettingInt('display.type')
@@ -98,6 +102,7 @@ class fd628Settings:
 			self._displayBrightness = 7
 			self._storageIndicator = False
 			self._storageIndicatorIcon = ''
+			self._colonOn = False
 			self._displayAdvanced = False
 		if not (self._displayAdvanced):
 			self._displayType = 0

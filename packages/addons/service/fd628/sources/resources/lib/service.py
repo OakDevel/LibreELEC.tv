@@ -109,6 +109,8 @@ class fd628Addon():
 					self._fd628.setCharacterOrder(self._settings.getCharacterIndexes())
 				else:
 					self._fd628.useDtbConfig()
+				if (self._colonIcon != None and self._settings.isColonOn()):
+					self._colonIcon.turnOn()
 			self.__updateIndicators()
 			self._rlock.release()
 		kodiLog('isDisplayOn = {0}'.format(self._settings.isDisplayOn()))
@@ -126,7 +128,7 @@ class fd628Addon():
 		'service-LibreELEC-Settings-getPasskey.xml']
 		appsWindows = ['addonbrowser', 'addonsettings', 'addoninformation', 'addon', 'programs']
 		states = []
-		states.append(fd628states.fd628PowerIndicator('power'))
+		states.append(fd628states.fd628IconIndicator(True, 'power'))
 		states.append(fd628states.fd628CondVisibility('play', 'Player.Playing'))
 		states.append(fd628states.fd628CondVisibility('pause', 'Player.Paused'))
 		states.append(fd628states.fd628FileContains('hdmi', '/sys/class/amhdmitx/amhdmitx0/hpd_state', ['1']))
@@ -137,6 +139,8 @@ class fd628Addon():
 		states.append(fd628states.fd628WindowChecker('apps', appsWindows))
 		states.append(fd628states.fd628ExtStorageChecker('usb', '/dev/sd'))
 		states.append(fd628states.fd628ExtStorageChecker('sd', '/dev/mmcblk'))
+		self._colonIcon = fd628states.fd628IconIndicator(False, 'colon')
+		states.append(self._colonIcon)
 		if (self._settings.isStorageIndicator()):
 			for state in states:
 				if (state.getLedName() == self._settings.getStorageIndicatorIcon()):

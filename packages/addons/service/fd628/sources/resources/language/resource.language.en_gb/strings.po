@@ -49,6 +49,10 @@ msgctxt "#30014"
 msgid "Select which icon is to be used as the access indicator"
 msgstr ""
 
+msgctxt "#30028"
+msgid "Clock colon (:) always on"
+msgstr ""
+
 msgctxt "#30015"
 msgid "play"
 msgstr ""
@@ -129,4 +133,4 @@ msgctxt "#30011"
 msgid "Index 6"
 msgstr ""
 
-# Max index 30027
+# Max index 30028

@@ -48,15 +48,22 @@ class fd628State(object):
 		else:
 			self._hasChanged = False
 
-class fd628PowerIndicator(fd628State):
-	def __init__(self, ledName):
-		super(fd628PowerIndicator, self).__init__(ledName)
+class fd628IconIndicator(fd628State):
+	def __init__(self, on, ledName):
+		super(fd628IconIndicator, self).__init__(ledName)
+		self._on = on
 
 	def __str__(self):
-		return self._getStr('fd628PowerIndicator')
+		return self._getStr('fd628IconIndicator')
+
+	def turnOn(self):
+		self._on = True
+
+	def turnOff(self):
+		self._on = False
 
 	def update(self):
-		self._update(True)
+		self._update(self._on)
 
 class fd628CondVisibility(fd628State):
 	def __init__(self, ledName, cmd):
