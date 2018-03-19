@@ -62,6 +62,9 @@ class fd628IconIndicator(fd628State):
 	def turnOff(self):
 		self._on = False
 
+	def toggle(self):
+		self._on = not self._on
+
 	def update(self):
 		self._update(self._on)
 
