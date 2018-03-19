@@ -17,11 +17,11 @@
 ################################################################################
 
 PKG_NAME="fd628-aml"
-PKG_VERSION="9e63b43"
-PKG_SHA256="386855437ae74a48e4ec92f25c623988a08a040eab60ddc7bbf5046b25c69946"
+PKG_VERSION="4c4cc6e"
+PKG_SHA256="c52780595c1e72cbe153011a54f6f3b946e9c77d5e13f4dd48ad70cce7905a43"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/tanixbox/tx3mini_linux_fd628"
+PKG_SITE="https://github.com/arthur-liberman/linux_fd628"
 PKG_URL="https://github.com/arthur-liberman/linux_fd628/archive/$PKG_VERSION.tar.gz"
 PKG_SOURCE_DIR="linux_fd628-$PKG_VERSION*"
 PKG_DEPENDS_TARGET="toolchain linux"
